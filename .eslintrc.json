@@ -41,6 +41,7 @@
             2,
             4
         ],
+        "max-len": "off",
         "no-alert": "off",
         "import/extensions": "off",
         "react/jsx-filename-extension": [
