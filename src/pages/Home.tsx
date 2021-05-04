@@ -2,9 +2,11 @@ import React, { useRef, useState, useEffect } from 'react';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import '@tensorflow/tfjs-backend-webgl';
 import {
-    Box, Image, Button, Center, Heading, Input, Flex, Spacer,
-    Table, Tr, Thead, TableCaption, Th, Tbody, Td,
+    Box, Image, Button, Center, Heading, Input, Spacer,
+    Table, Tr, Thead, TableCaption, Th, Tbody, Td, Wrap, Progress,
 } from '@chakra-ui/react';
+
+import generateKey from '../utils/generateKey';
 
 const version = 2;
 const alpha = 0.5;
@@ -32,7 +34,6 @@ const Home: React.FC = () => {
 
     const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            console.log(e.target.files[0].type);
             setPreictions(null);
             const reader: FileReader = new FileReader();
             reader.onload = async () => setImageUrl(reader.result as string);
@@ -42,27 +43,26 @@ const Home: React.FC = () => {
 
     const classify = async () => {
         const results = await loadedModel!.classify(imageRef.current!);
-        console.log(results);
         setPreictions(results);
     };
 
-    if (isModelLoading) return <h2 style={{ textAlign: 'center' }}>Loading model</h2>;
+    if (isModelLoading) return <Progress size="xs" isIndeterminate />;
 
     return (
-        <Box w="100" maxW={{ base: 'xl', md: '7xl' }} mx="auto" px={{ md: '8' }} textAlign="center">
-            <Heading m="4">MobileNet image prediction!</Heading>
+        <Box w="100" mx="auto" px={{ md: '8' }} textAlign="center">
+            <Heading m="4">MobileNet Img Classification!</Heading>
             <Input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
                 size="md"
-                width="md"
-                m="4"
+                width="sm"
+                m="2"
             />
 
             { imageUrl != null
                 ? (
-                    <Flex>
+                    <Wrap spacing="40px" py="2" mx="9">
                         <Box p="4">
                             <Center>
                                 <Image
@@ -106,7 +106,7 @@ const Home: React.FC = () => {
                                     {
                                         predictions != null
                                             ? predictions.map((p) => (
-                                                <Tr>
+                                                <Tr key={generateKey(6)}>
                                                     <Td>{p.className}</Td>
                                                     <Td>
                                                         {(p.probability * 100).toFixed(3)}
@@ -121,7 +121,7 @@ const Home: React.FC = () => {
                                 </Tbody>
                             </Table>
                         </Box>
-                    </Flex>
+                    </Wrap>
                 )
                 : null}
         </Box>

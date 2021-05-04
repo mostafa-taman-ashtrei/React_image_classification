@@ -2,7 +2,7 @@ import React from 'react';
 import { useColorMode, IconButton } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
-const ThemeSwitch = () => {
+const ThemeSwitch: React.FC = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     return (
         <IconButton
