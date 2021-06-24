@@ -60,7 +60,7 @@ const Home: React.FC = () => {
                 m="2"
             />
 
-            { imageUrl != null
+            {imageUrl != null
                 ? (
                     <Wrap spacing="40px" py="2" mx="9">
                         <Box p="4">
@@ -71,7 +71,7 @@ const Home: React.FC = () => {
                                     alt="image to be classified"
                                     ref={imageRef}
                                     width="lg"
-                                    height="lg"
+                                    height="sm"
                                     m="4"
                                 />
                             </Center>
