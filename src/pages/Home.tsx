@@ -15,8 +15,9 @@ const Home: React.FC = () => {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [isModelLoading, setIsModelLoading] = useState<boolean>(false);
     const [loadedModel, setLoadedModel] = useState<mobilenet.MobileNet | null>(null);
-    const imageRef = useRef<HTMLImageElement>(null);
     const [predictions, setPreictions] = useState<{ className: string; probability: number; }[] | null>(null);
+    const [fileName, setFileName] = useState<String>('');
+    const imageRef = useRef<HTMLImageElement>(null);
 
     const loadModel = async () => {
         setIsModelLoading(true);
@@ -38,6 +39,7 @@ const Home: React.FC = () => {
             const reader: FileReader = new FileReader();
             reader.onload = async () => setImageUrl(reader.result as string);
             reader.readAsDataURL(e.target.files[0]);
+            setFileName(e.target.files[0].name);
         }
     };
 
@@ -100,7 +102,11 @@ const Home: React.FC = () => {
                                     </Tr>
                                 </Thead>
 
-                                <TableCaption fontSize="md" placement="top">Image Prediction Results</TableCaption>
+                                <TableCaption fontSize="md" placement="top">
+                                    {fileName}
+                                    {' '}
+                                    Prediction Results
+                                </TableCaption>
 
                                 <Tbody>
                                     {
